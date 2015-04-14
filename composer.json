@@ -8,5 +8,10 @@
       "name": "Łukasz Barulski",
       "email": "tracerout@yahoo.com"
     }
-  ]
+  ],
+  "autoload": {
+    "psr-4": {
+      "lbarulski\\CacheTagsBundle\\": "CacheTagsBundle/"
+    }
+  }
 }
