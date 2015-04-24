@@ -16,12 +16,17 @@ class Response
 	 */
 	private $repository;
 
+	/** @var string */
+	private $headerName;
+
 	/**
 	 * @param Repository $repository
+	 * @param string     $headerName
 	 */
-	public function __construct(Repository $repository)
+	public function __construct(Repository $repository, $headerName)
 	{
 		$this->repository = $repository;
+		$this->headerName = $headerName;
 	}
 
 	/**
@@ -31,6 +36,6 @@ class Response
 	{
 		$response = $event->getResponse();
 
-		$response->headers->set('X-CACHE-TAGS', join(',', $this->repository->getTags()));
+		$response->headers->set($this->headerName, join(',', $this->repository->getTags()));
 	}
 }

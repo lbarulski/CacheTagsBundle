@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
 						->integerNode('port')->defaultValue(80)->end()
 						->scalarNode('path')->defaultValue('/')->end()
 						->integerNode('timeout')->defaultValue(1)->end()
+						->scalarNode('header_name')->defaultValue('X-CACHE-TAGS')->end()
 					->end()
 				->end()
 			->end();

@@ -6,7 +6,7 @@
 
 namespace lbarulski\CacheTagsBundle\Tag;
 
-interface TagInterface 
+interface TagInterface
 {
 	public function __toString();
 }

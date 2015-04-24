@@ -1,17 +1,21 @@
 {
-  "name": "lbarulski/cache-tags-bundle",
-  "description": "Bundle for custom varnish tags",
-  "minimum-stability": "stable",
-  "license": "beerware",
-  "authors": [
-    {
-      "name": "Łukasz Barulski",
-      "email": "tracerout@yahoo.com"
+    "name": "lbarulski/cache-tags-bundle",
+    "description": "Bundle for custom varnish tags",
+    "minimum-stability": "stable",
+    "license": "beerware",
+    "authors": [
+        {
+            "name": "Łukasz Barulski",
+            "email": "tracerout@yahoo.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "lbarulski\\CacheTagsBundle\\": "CacheTagsBundle/"
+        }
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/symfony": "~2.5"
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "lbarulski\\CacheTagsBundle\\": "CacheTagsBundle/"
-    }
-  }
 }
