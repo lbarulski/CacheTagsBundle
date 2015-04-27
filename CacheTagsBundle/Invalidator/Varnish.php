@@ -42,7 +42,7 @@ class Varnish implements InvalidatorInterface
 	 * @param int    $timeout
 	 * @param string $invalidationHeaderName
 	 */
-	public function __constructor($host, $port, $path, $timeout, $invalidationHeaderName)
+	public function __construct($host, $port, $path, $timeout, $invalidationHeaderName)
 	{
 		$this->host                   = $host;
 		$this->port                   = $port;
@@ -53,10 +53,17 @@ class Varnish implements InvalidatorInterface
 
 	/**
 	 * @param TagInterface $tag
+	 * @throws \RuntimeException when cannot connect to Varnish
 	 */
 	public function invalidateTag(TagInterface $tag)
 	{
 		$fp = fsockopen($this->host, $this->port, $errNo, $errStr, $this->timeout);
+
+		if (false === is_resource($fp))
+		{
+			$exception = new \RuntimeException($errStr, $errNo);
+			throw new \RuntimeException(sprintf('Unable to connect to Varnish on %s:%d', $this->host, $this->port), $errNo, $exception);
+		}
 
 		$out = sprintf("BAN %s HTTP/1.1\r\n", $this->path);
 		$out .= sprintf("Host %s\r\n", $this->host);
