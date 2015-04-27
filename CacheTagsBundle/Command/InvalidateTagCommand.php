@@ -25,6 +25,7 @@ class InvalidateTagCommand extends Command
 	 */
 	public function __construct(InvalidatorInterface $invalidator)
 	{
+		parent::__construct();
 		$this->invalidator = $invalidator;
 	}
 
