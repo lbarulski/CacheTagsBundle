@@ -8,7 +8,7 @@ parameters:
 services:
     cache_tags.invalidator.varnish:
         class: %cache_tags.invalidator.varnish.class%
-        arguments: ["%cache_tags.varnish.host%", "%cache_tags.varnish.port%", "%cache_tags.varnish.path%", "%cache_tags.varnish.timeout%", "%cache_tags.varnish.header.invalidation%"]
+        arguments: [%cache_tags.varnish.host%, %cache_tags.varnish.port%, %cache_tags.varnish.path%, %cache_tags.varnish.timeout%, %cache_tags.varnish.header.invalidation%]
 
     cache_tags.invalidator:
         alias: cache_tags.invalidator.varnish
