@@ -21,7 +21,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
-    cache_tags.command.invalidate:
+    cache_tags.command.invalidate_tag:
         class: %cache_tags.command.invalidate_tag.class%
         arguments: [@cache_tags.invalidator]
         tags:
