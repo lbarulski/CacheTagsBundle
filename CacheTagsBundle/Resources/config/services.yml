@@ -17,7 +17,7 @@ services:
 
     cache_tags.response_listener:
         class: %cache_tags.response.class%
-        arguments: [%cache_tags.varnish.header.tags%, @cache_tags.repository]
+        arguments: [@cache_tags.repository, %cache_tags.varnish.header.tags%]
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
