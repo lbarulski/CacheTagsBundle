@@ -4,7 +4,7 @@
  * Date: 24/04/15 20:56
  */
 
-namespace lbarulski\CacheTagsBunde\Command;
+namespace lbarulski\CacheTagsBundle\Command;
 
 use lbarulski\CacheTagsBundle\Invalidator\InvalidatorInterface;
 use lbarulski\CacheTagsBundle\Tag\Plain;

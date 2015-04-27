@@ -2,7 +2,7 @@ parameters:
     cache_tags.invalidator.varnish.class: lbarulski\CacheTagsBundle\Invalidator\Varnish
     cache_tags.repository.class: lbarulski\CacheTagsBundle\Service\Repository
     cache_tags.response.class: lbarulski\CacheTagsBundle\Listener\Response
-    cache_tags.command.invalidate_tag.class: lbarulski\CacheTagsBunde\Command\InvalidateTagCommand
+    cache_tags.command.invalidate_tag.class: lbarulski\CacheTagsBundle\Command\InvalidateTagCommand
 
 services:
     cache_tags.invalidator.varnish:
