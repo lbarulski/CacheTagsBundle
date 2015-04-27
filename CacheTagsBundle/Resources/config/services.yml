@@ -1,6 +1,7 @@
 parameters:
     cache_tags.invalidator.varnish.class: lbarulski\CacheTagsBundle\Invalidator\Varnish
     cache_tags.repository.class: lbarulski\CacheTagsBundle\Service\Repository
+    cache_tags.tagger.class: lbarulski\CacheTagsBundle\Service\Tagger
     cache_tags.response.class: lbarulski\CacheTagsBundle\Listener\Response
     cache_tags.command.invalidate_tag.class: lbarulski\CacheTagsBundle\Command\InvalidateTagCommand
 
@@ -15,9 +16,13 @@ services:
     cache_tags.repository:
         class: %cache_tags.repository.class%
 
+    cache_tags.tagger:
+        class: %cache_tags.tagger.class%
+        arguments: [%cache_tags.varnish.header.tags%]
+
     cache_tags.response_listener:
         class: %cache_tags.response.class%
-        arguments: [@cache_tags.repository, %cache_tags.varnish.header.tags%]
+        arguments: [@cache_tags.repository, @cache_tags.tagger]
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 

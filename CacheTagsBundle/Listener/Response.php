@@ -7,26 +7,25 @@
 namespace lbarulski\CacheTagsBundle\Listener;
 
 use lbarulski\CacheTagsBundle\Service\Repository;
+use lbarulski\CacheTagsBundle\Service\Tagger;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 class Response
 {
-	/**
-	 * @var Repository
-	 */
+	/** @var Repository */
 	private $repository;
 
-	/** @var string */
-	private $headerName;
+	/** @var Tagger */
+	private $tagger;
 
 	/**
 	 * @param Repository $repository
-	 * @param string     $headerName
+	 * @param Tagger     $tagger
 	 */
-	public function __construct(Repository $repository, $headerName)
+	public function __construct(Repository $repository, Tagger $tagger)
 	{
 		$this->repository = $repository;
-		$this->headerName = $headerName;
+		$this->tagger     = $tagger;
 	}
 
 	/**
@@ -37,16 +36,6 @@ class Response
 		$response = $event->getResponse();
 		$tags     = $this->repository->getTags();
 
-		if ($response->headers->has($this->headerName))
-		{
-			$responseTags = $response->headers->get($this->headerName);
-			if ('' !== $responseTags)
-			{
-				$tags = array_merge(explode(',', $responseTags), $tags);
-			}
-		}
-
-		$tags = array_unique($tags);
-		$response->headers->set($this->headerName, implode(',', $tags));
+		$this->tagger->tagResponse($response, $tags);
 	}
 }
