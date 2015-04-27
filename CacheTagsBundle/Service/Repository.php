@@ -28,6 +28,6 @@ class Repository
 	 */
 	public function getTags()
 	{
-		return array_unique($this->tags);
+		return $this->tags;
 	}
 }

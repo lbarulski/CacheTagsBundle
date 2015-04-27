@@ -7,7 +7,7 @@ parameters:
 services:
     cache_tags.invalidator.varnish:
         class: %cache_tags.invalidator.varnish.class%
-        arguments: ["%cache_tags.varnish.host%", "%cache_tags.varnish.port%", "%cache_tags.varnish.path%", "%cache_tags.varnish.timeout%"]
+        arguments: ["%cache_tags.varnish.host%", "%cache_tags.varnish.port%", "%cache_tags.varnish.path%", "%cache_tags.varnish.timeout%", "%cache_tags.varnish.header.invalidation%"]
 
     cache_tags.invalidator:
         alias: cache_tags.invalidator.varnish
@@ -17,7 +17,7 @@ services:
 
     cache_tags.response_listener:
         class: %cache_tags.response.class%
-        arguments: [%cache_tags.varnish.header_name%, @cache_tags.repository]
+        arguments: [%cache_tags.varnish.header.tags%, @cache_tags.repository]
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 

@@ -45,9 +45,14 @@ class CacheTagsExtension extends Extension
 			$container->setParameter('cache_tags.varnish.timeout', $config['varnish']['timeout']);
 		}
 
-		if (false === $container->hasParameter('cache_tags.varnish.header_name'))
+		if (false === $container->hasParameter('cache_tags.varnish.header.tags'))
 		{
-			$container->setParameter('cache_tags.varnish.header_name', $config['varnish']['header_name']);
+			$container->setParameter('cache_tags.varnish.header.tags', $config['varnish']['header']['tags']);
+		}
+
+		if (false === $container->hasParameter('cache_tags.varnish.header.invalidation'))
+		{
+			$container->setParameter('cache_tags.varnish.header.invalidation', $config['varnish']['header']['invalidation']);
 		}
     }
 }

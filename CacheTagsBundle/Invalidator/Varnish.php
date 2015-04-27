@@ -31,17 +31,24 @@ class Varnish implements InvalidatorInterface
 	private $timeout;
 
 	/**
+	 * @var string
+	 */
+	private $invalidationHeaderName;
+
+	/**
 	 * @param string $host
 	 * @param int    $port
 	 * @param string $path
 	 * @param int    $timeout
+	 * @param string $invalidationHeaderName
 	 */
-	public function __constructor($host, $port, $path, $timeout)
+	public function __constructor($host, $port, $path, $timeout, $invalidationHeaderName)
 	{
-		$this->host    = $host;
-		$this->port    = $port;
-		$this->path    = $path;
-		$this->timeout = $timeout;
+		$this->host                   = $host;
+		$this->port                   = $port;
+		$this->path                   = $path;
+		$this->timeout                = $timeout;
+		$this->invalidationHeaderName = $invalidationHeaderName;
 	}
 
 	/**
@@ -51,9 +58,9 @@ class Varnish implements InvalidatorInterface
 	{
 		$fp = fsockopen($this->host, $this->port, $errNo, $errStr, $this->timeout);
 
-		$out = "BAN " . $this->path . " HTTP/1.1\r\n";
-		$out .= "Host: " . $this->host . "\r\n";
-		$out .= "X-CACHE-TAG: " . ((string) $tag) . "\r\n";
+		$out = sprintf("BAN %s HTTP/1.1\r\n", $this->path);
+		$out .= sprintf("Host %s\r\n", $this->host);
+		$out .= sprintf("%s: %s\r\n", $this->invalidationHeaderName, (string) $tag);
 		$out .= "Connection: Close\r\n\r\n";
 
 		fwrite($fp, $out);

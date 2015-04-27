@@ -35,7 +35,18 @@ class Response
 	public function onKernelResponse(FilterResponseEvent $event)
 	{
 		$response = $event->getResponse();
+		$tags     = $this->repository->getTags();
 
-		$response->headers->set($this->headerName, join(',', $this->repository->getTags()));
+		if ($response->headers->has($this->headerName))
+		{
+			$responseTags = $response->headers->get($this->headerName);
+			if ('' !== $responseTags)
+			{
+				$tags = array_merge(explode(',', $responseTags), $tags);
+			}
+		}
+
+		$tags = array_unique($tags);
+		$response->headers->set($this->headerName, implode(',', $tags));
 	}
 }

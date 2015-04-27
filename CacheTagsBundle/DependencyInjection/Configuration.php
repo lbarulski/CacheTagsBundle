@@ -29,7 +29,12 @@ class Configuration implements ConfigurationInterface
 						->integerNode('port')->defaultValue(80)->end()
 						->scalarNode('path')->defaultValue('/')->end()
 						->integerNode('timeout')->defaultValue(1)->end()
-						->scalarNode('header_name')->defaultValue('X-CACHE-TAGS')->end()
+						->arrayNode('header')
+							->children()
+								->scalarNode('tags')->defaultValue('X-CACHE-TAGS')->end()
+								->scalarNode('invalidation')->defaultValue('X-CACHE-TAG')->end()
+							->end()
+						->end()
 					->end()
 				->end()
 			->end();
