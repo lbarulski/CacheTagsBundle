@@ -23,22 +23,28 @@ class Tagger
 	}
 
 	/**
-	 * @param Response                $response
-	 * @param TagInterface[]|string[] $tags
-	 * @param bool                    $replace
+	 * @param Response       $response
+	 * @param TagInterface[] $tags
+	 * @param bool           $replace
 	 */
 	public function tagResponse(Response $response, $tags, $replace = false)
 	{
+		$tagValues = [];
+		foreach ($tags as $tag)
+		{
+			$tagValues[] = $tag->getTag();
+		}
+
 		if (!$replace && $response->headers->has($this->headerName))
 		{
 			$responseTags = $response->headers->get($this->headerName);
 			if ('' !== $responseTags)
 			{
-				$tags = array_merge(explode(',', $responseTags), $tags);
+				$tagValues = array_merge(explode(',', $responseTags), $tagValues);
 			}
 		}
 
-		$tags = array_unique($tags);
-		$response->headers->set($this->headerName, implode(',', $tags));
+		$tagValues = array_unique($tagValues);
+		$response->headers->set($this->headerName, implode(',', $tagValues));
 	}
 }

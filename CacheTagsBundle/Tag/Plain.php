@@ -21,10 +21,8 @@ class Plain implements TagInterface
 		$this->value = $value;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function __toString()
+	/** {@inheritdoc} */
+	public function getTag()
 	{
 		return $this->value;
 	}

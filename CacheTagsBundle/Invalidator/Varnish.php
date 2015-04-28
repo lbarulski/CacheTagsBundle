@@ -67,7 +67,7 @@ class Varnish implements InvalidatorInterface
 
 		$out = sprintf("BAN %s HTTP/1.1\r\n", $this->path);
 		$out .= sprintf("Host %s\r\n", $this->host);
-		$out .= sprintf("%s: %s\r\n", $this->invalidationHeaderName, (string) $tag);
+		$out .= sprintf("%s: %s\r\n", $this->invalidationHeaderName, $tag->getTag());
 		$out .= "Connection: Close\r\n\r\n";
 
 		fwrite($fp, $out);

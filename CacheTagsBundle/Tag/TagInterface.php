@@ -8,5 +8,8 @@ namespace lbarulski\CacheTagsBundle\Tag;
 
 interface TagInterface
 {
-	public function __toString();
+	/**
+	 * @return string
+	 */
+	public function getTag();
 }
