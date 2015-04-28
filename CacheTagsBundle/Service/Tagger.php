@@ -45,6 +45,12 @@ class Tagger
 		}
 
 		$tagValues = array_unique($tagValues);
+
+		if (empty($tagValues))
+		{
+			return;
+		}
+
 		$response->headers->set($this->headerName, implode(',', $tagValues));
 	}
 }
