@@ -9,6 +9,7 @@ namespace lbarulski\CacheTagsBundle\Listener;
 use lbarulski\CacheTagsBundle\Service\Repository;
 use lbarulski\CacheTagsBundle\Service\Tagger;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class Response
 {
@@ -33,6 +34,11 @@ class Response
 	 */
 	public function onKernelResponse(FilterResponseEvent $event)
 	{
+		if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType())
+		{
+			return;
+		}
+
 		$response = $event->getResponse();
 		$tags     = $this->repository->getTags();
 
