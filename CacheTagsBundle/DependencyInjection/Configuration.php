@@ -2,6 +2,8 @@
 
 namespace lbarulski\CacheTagsBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -20,27 +22,49 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('cache_tags');
 
-		/** @noinspection PhpUndefinedMethodInspection */
-		$rootNode
-			->addDefaultsIfNotSet()
-			->children()
-				->arrayNode('varnish')
-					->addDefaultsIfNotSet()
-					->children()
-						->scalarNode('host')->defaultValue('127.0.0.1')->end()
-						->integerNode('port')->defaultValue(80)->end()
-						->scalarNode('path')->defaultValue('/')->end()
-						->integerNode('timeout')->defaultValue(1)->end()
-						->arrayNode('header')
-							->addDefaultsIfNotSet()
-							->children()
-								->scalarNode('tags')->defaultValue('X-CACHE-TAGS')->end()
-								->scalarNode('invalidation')->defaultValue('X-CACHE-TAG')->end()
-							->end()
-						->end()
-					->end()
-				->end()
-			->end();
+		$this->addResponseNode($rootNode);
+		$this->addProxiesNode($rootNode);
+
         return $treeBuilder;
     }
+
+	/**
+	 * @param ArrayNodeDefinition|NodeDefinition $rootNode
+	 */
+	private function addResponseNode(NodeDefinition $rootNode)
+	{
+		$responseNode    = $rootNode->children()->arrayNode('response');
+
+		$responseTagNode = $responseNode->children()->scalarNode('tag');
+		$responseTagNode->defaultValue('X-CACHE-TAGS')->end();
+	}
+
+	/**
+	 * @param ArrayNodeDefinition|NodeDefinition $rootNode
+	 */
+	private function addProxiesNode(NodeDefinition $rootNode)
+	{
+		$proxiesNode = $rootNode->children()->arrayNode('proxies');
+
+		$this->addVarnishNode($proxiesNode);
+	}
+
+	/**
+	 * @param ArrayNodeDefinition $proxiesNode
+	 */
+	private function addVarnishNode(ArrayNodeDefinition $proxiesNode)
+	{
+		$varnishNode = $proxiesNode->children()->arrayNode('varnish');
+
+		/** @var ArrayNodeDefinition $varnishOptions */
+		$varnishOptions = $varnishNode->prototype('array');
+
+		$varnishOptions->addDefaultsIfNotSet();
+
+		$varnishOptions->children()->scalarNode('host')->defaultValue('127.0.0.1')->end();
+		$varnishOptions->children()->integerNode('port')->defaultValue(80)->end();
+		$varnishOptions->children()->scalarNode('path')->defaultValue('/')->end();
+		$varnishOptions->children()->integerNode('timeout')->defaultValue(1)->end();
+		$varnishOptions->children()->scalarNode('header')->defaultValue('X-CACHE-TAG')->end();
+	}
 }

@@ -1,33 +1,9 @@
 parameters:
-    cache_tags.invalidator.varnish.class: lbarulski\CacheTagsBundle\Invalidator\Varnish
-    cache_tags.repository.class: lbarulski\CacheTagsBundle\Service\Repository
-    cache_tags.tagger.class: lbarulski\CacheTagsBundle\Service\Tagger
-    cache_tags.response.class: lbarulski\CacheTagsBundle\Listener\Response
     cache_tags.command.invalidate_tag.class: lbarulski\CacheTagsBundle\Command\InvalidateTagCommand
 
 services:
-    cache_tags.invalidator.varnish:
-        class: %cache_tags.invalidator.varnish.class%
-        arguments: [%cache_tags.varnish.host%, %cache_tags.varnish.port%, %cache_tags.varnish.path%, %cache_tags.varnish.timeout%, %cache_tags.varnish.header.invalidation%]
-
-    cache_tags.invalidator:
-        alias: cache_tags.invalidator.varnish
-
-    cache_tags.repository:
-        class: %cache_tags.repository.class%
-
-    cache_tags.tagger:
-        class: %cache_tags.tagger.class%
-        arguments: [%cache_tags.varnish.header.tags%]
-
-    cache_tags.response_listener:
-        class: %cache_tags.response.class%
-        arguments: [@cache_tags.repository, @cache_tags.tagger]
-        tags:
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
-
     cache_tags.command.invalidate_tag:
-        class: %cache_tags.command.invalidate_tag.class%
-        arguments: [@cache_tags.invalidator]
+        class:      %cache_tags.command.invalidate_tag.class%
+        arguments:  [@cache_tags.invalidator]
         tags:
             - { name: console.command }

@@ -1,0 +1,11 @@
+parameters:
+    cache_tags.tagger.class:            lbarulski\CacheTagsBundle\Service\Tagger
+    cache_tags.tagger.repository.class: lbarulski\CacheTagsBundle\Service\Repository
+
+services:
+    cache_tags.tagger:
+        class:      %cache_tags.tagger.class%
+        arguments:  [%cache_tags.response.tag%]
+
+    cache_tags.tagger.repository:
+        class:      %cache_tags.tagger.repository.class%
