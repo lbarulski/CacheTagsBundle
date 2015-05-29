@@ -11,7 +11,7 @@ use lbarulski\CacheTagsBundle\Service\Tagger;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-class Response
+class ResponseListener
 {
 	/** @var Repository */
 	private $repository;

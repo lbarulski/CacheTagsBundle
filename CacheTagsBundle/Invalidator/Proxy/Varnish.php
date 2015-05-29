@@ -4,11 +4,9 @@
  * Date: 14.04.15 21:23
  */
 
-namespace lbarulski\CacheTagsBundle\Invalidator;
+namespace lbarulski\CacheTagsBundle\Invalidator\Proxy;
 
-use lbarulski\CacheTagsBundle\Tag\TagInterface;
-
-class Varnish implements InvalidatorInterface
+class Varnish implements ProxyInterface
 {
 	/**
 	 * @var string
@@ -52,10 +50,9 @@ class Varnish implements InvalidatorInterface
 	}
 
 	/**
-	 * @param TagInterface $tag
-	 * @throws \RuntimeException when cannot connect to Varnish
+	 * @inheritdoc
 	 */
-	public function invalidateTag(TagInterface $tag)
+	public function invalidate($tag)
 	{
 		$fp = fsockopen($this->host, $this->port, $errNo, $errStr, $this->timeout);
 
@@ -67,7 +64,7 @@ class Varnish implements InvalidatorInterface
 
 		$out = sprintf("BAN %s HTTP/1.1\r\n", $this->path);
 		$out .= sprintf("Host %s\r\n", $this->host);
-		$out .= sprintf("%s: %s\r\n", $this->invalidationHeaderName, $tag->getTag());
+		$out .= sprintf("%s: %s\r\n", $this->invalidationHeaderName, $tag);
 		$out .= "Connection: Close\r\n\r\n";
 
 		fwrite($fp, $out);

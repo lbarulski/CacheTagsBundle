@@ -49,7 +49,7 @@ class InvalidateTagCommand extends Command
 				$output->writeln(sprintf('Invalidating tag <comment>%s</comment>', $tag));
 			}
 
-			$this->invalidator->invalidateTag(new Plain($tag));
+			$this->invalidator->invalidate(new Plain($tag));
 		}
 	}
 }
