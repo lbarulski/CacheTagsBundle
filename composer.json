@@ -11,6 +11,10 @@
         {
             "name": "Tomasz Wójcik",
             "email": "tomasz.prgtw.wojcik@gmail.com"
+        },
+        {
+            "name": "Marcin Chyłek",
+            "email": "marcin@chylek.pl"
         }
     ],
     "autoload": {
