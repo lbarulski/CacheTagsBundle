@@ -41,7 +41,10 @@ class CacheTagListener
 		foreach ($configurations as $configuration)
 		{
 			$object = $request->attributes->get($configuration->name);
-			$this->repository->add($object);
+			if (null !== $object)
+			{
+				$this->repository->add($object);
+			}
 		}
 
 	}
