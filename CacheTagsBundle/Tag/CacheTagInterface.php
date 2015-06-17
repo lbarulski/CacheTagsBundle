@@ -6,10 +6,10 @@
 
 namespace lbarulski\CacheTagsBundle\Tag;
 
-interface TagInterface
+interface CacheTagInterface
 {
 	/**
 	 * @return string
 	 */
-	public function getTag();
+	public function getCacheTag();
 }

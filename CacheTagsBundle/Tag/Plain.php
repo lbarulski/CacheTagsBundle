@@ -6,7 +6,7 @@
 
 namespace lbarulski\CacheTagsBundle\Tag;
 
-class Plain implements TagInterface
+class Plain implements CacheTagInterface
 {
 	/**
 	 * @var string
@@ -22,7 +22,7 @@ class Plain implements TagInterface
 	}
 
 	/** {@inheritdoc} */
-	public function getTag()
+	public function getCacheTag()
 	{
 		return $this->value;
 	}

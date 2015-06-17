@@ -2,9 +2,12 @@
 
 namespace lbarulski\CacheTagsBundle\Invalidator;
 
-use lbarulski\CacheTagsBundle\Tag\TagInterface;
+use lbarulski\CacheTagsBundle\Tag\CacheTagInterface;
 
 interface InvalidatorInterface
 {
-	public function invalidate(TagInterface $tag);
+	/**
+	 * @param CacheTagInterface $tag
+	 */
+	public function invalidate(CacheTagInterface $tag);
 }

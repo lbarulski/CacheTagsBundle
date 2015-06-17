@@ -4,7 +4,7 @@ namespace lbarulski\CacheTagsBundle\Listener;
 
 use lbarulski\CacheTagsBundle\Invalidator\Proxy\ManagerInterface;
 use lbarulski\CacheTagsBundle\Service\Repository;
-use lbarulski\CacheTagsBundle\Tag\TagInterface;
+use lbarulski\CacheTagsBundle\Tag\CacheTagInterface;
 
 class InvalidatorListener
 {
@@ -35,11 +35,11 @@ class InvalidatorListener
 	}
 
 	/**
-	 * @param TagInterface $tag
+	 * @param CacheTagInterface $tag
 	 */
-	private function invalidateTag(TagInterface $tag)
+	private function invalidateTag(CacheTagInterface $tag)
 	{
-		$tagValue = $tag->getTag();
+		$tagValue = $tag->getCacheTag();
 		$proxies  = $this->manager->getProxies();
 		foreach ($proxies as $proxy)
 		{
