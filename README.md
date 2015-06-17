@@ -177,6 +177,11 @@ public function updateArticleAction(Article $article)
 }
 ```
 
+Presentation
+------------
+
+http://www.slideshare.net/chylek/cachetagsbundle
+
 License
 -------
 
