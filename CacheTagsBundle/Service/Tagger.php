@@ -6,7 +6,7 @@
 
 namespace lbarulski\CacheTagsBundle\Service;
 
-use lbarulski\CacheTagsBundle\Tag\TagInterface;
+use lbarulski\CacheTagsBundle\Tag\CacheTagInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 class Tagger
@@ -24,7 +24,7 @@ class Tagger
 
 	/**
 	 * @param Response       $response
-	 * @param TagInterface[] $tags
+	 * @param CacheTagInterface[] $tags
 	 * @param bool           $replace
 	 */
 	public function tagResponse(Response $response, $tags, $replace = false)
@@ -32,7 +32,7 @@ class Tagger
 		$tagValues = [];
 		foreach ($tags as $tag)
 		{
-			$tagValues[] = $tag->getTag();
+			$tagValues[] = $tag->getCacheTag();
 		}
 
 		if (!$replace && $response->headers->has($this->headerName))

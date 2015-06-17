@@ -111,13 +111,13 @@ public function articleAction(Request $request)
 ```php
 // Acme\MainBundle\Entity\Article.php
 
-use lbarulski\CacheTagsBundle\Tag\TagInterface;
+use lbarulski\CacheTagsBundle\Tag\CacheTagInterface;
 
-class Article implements TagInterface
+class Article implements CacheTagInterface
 {
     ...
     
-    public function getTag()
+    public function getCacheTag()
 	{
 		return 'article_'.$this->getId();
 	}

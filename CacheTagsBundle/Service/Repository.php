@@ -6,25 +6,25 @@
 
 namespace lbarulski\CacheTagsBundle\Service;
 
-use lbarulski\CacheTagsBundle\Tag\TagInterface;
+use lbarulski\CacheTagsBundle\Tag\CacheTagInterface;
 
 class Repository
 {
 	/**
-	 * @var TagInterface[]
+	 * @var CacheTagInterface[]
 	 */
 	private $tags = [];
 
 	/**
-	 * @param TagInterface $tag
+	 * @param CacheTagInterface $tag
 	 */
-	public function add(TagInterface $tag)
+	public function add(CacheTagInterface $tag)
 	{
 		$this->tags[] = $tag;
 	}
 
 	/**
-	 * @return TagInterface[]
+	 * @return CacheTagInterface[]
 	 */
 	public function getTags()
 	{

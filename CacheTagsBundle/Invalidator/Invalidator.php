@@ -3,7 +3,7 @@
 namespace lbarulski\CacheTagsBundle\Invalidator;
 
 use lbarulski\CacheTagsBundle\Service\Repository;
-use lbarulski\CacheTagsBundle\Tag\TagInterface;
+use lbarulski\CacheTagsBundle\Tag\CacheTagInterface;
 
 class Invalidator implements InvalidatorInterface
 {
@@ -20,7 +20,10 @@ class Invalidator implements InvalidatorInterface
 		$this->repository = $repository;
 	}
 
-	public function invalidate(TagInterface $tag)
+	/**
+	 * @param CacheTagInterface $tag
+	 */
+	public function invalidate(CacheTagInterface $tag)
 	{
 		$this->repository->add($tag);
 	}
