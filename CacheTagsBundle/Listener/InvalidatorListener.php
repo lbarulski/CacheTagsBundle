@@ -28,18 +28,24 @@ class InvalidatorListener
 	{
 		$tags = $this->repository->getTags();
 
+		$uniqTags = [];
 		foreach ($tags as $tag)
 		{
-			$this->invalidateTag($tag);
+			$tagValue            = $tag->getCacheTag();
+			$uniqTags[$tagValue] = $tagValue;
+		}
+
+		foreach ($uniqTags as $tagValue)
+		{
+			$this->invalidateTag($tagValue);
 		}
 	}
 
 	/**
-	 * @param CacheTagInterface $tag
+	 * @param string $tagValue
 	 */
-	private function invalidateTag(CacheTagInterface $tag)
+	private function invalidateTag($tagValue)
 	{
-		$tagValue = $tag->getCacheTag();
 		$proxies  = $this->manager->getProxies();
 		foreach ($proxies as $proxy)
 		{
