@@ -20,7 +20,7 @@ class Repository
 	 */
 	public function add(CacheTagInterface $tag)
 	{
-		$this->tags[] = $tag;
+		$this->tags[$tag->getCacheTag()] = $tag;
 	}
 
 	/**
