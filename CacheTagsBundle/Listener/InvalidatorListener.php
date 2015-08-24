@@ -28,16 +28,9 @@ class InvalidatorListener
 	{
 		$tags = $this->repository->getTags();
 
-		$uniqTags = [];
 		foreach ($tags as $tag)
 		{
-			$tagValue            = $tag->getCacheTag();
-			$uniqTags[$tagValue] = $tagValue;
-		}
-
-		foreach ($uniqTags as $tagValue)
-		{
-			$this->invalidateTag($tagValue);
+			$this->invalidateTag($tag->getCacheTag());
 		}
 	}
 
