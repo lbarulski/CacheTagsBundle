@@ -4,7 +4,6 @@ namespace lbarulski\CacheTagsBundle\Listener;
 
 use lbarulski\CacheTagsBundle\Invalidator\Proxy\ManagerInterface;
 use lbarulski\CacheTagsBundle\Service\Repository;
-use lbarulski\CacheTagsBundle\Tag\CacheTagInterface;
 
 class InvalidatorListener
 {
@@ -32,6 +31,8 @@ class InvalidatorListener
 		{
 			$this->invalidateTag($tag->getCacheTag());
 		}
+
+		$this->repository->setTags([]);
 	}
 
 	/**

@@ -30,4 +30,16 @@ class Repository
 	{
 		return $this->tags;
 	}
+
+	/**
+	 * @param CacheTagInterface[] $tags
+	 *
+	 * @return $this
+	 */
+	public function setTags(array $tags)
+	{
+		$this->tags = $tags;
+
+		return $this;
+	}
 }
