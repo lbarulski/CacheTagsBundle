@@ -7,7 +7,7 @@ parameters:
 services:
     cache_tags.invalidator:
         class:      %cache_tags.invalidator.class%
-        arguments:  [@cache_tags.invalidator.repository]
+        arguments:  ["@cache_tags.invalidator.repository"]
 
     cache_tags.invalidator.proxy.manager:
         class:      %cache_tags.invalidator.proxy.manager.class%
