@@ -46,6 +46,7 @@ class CacheTagsExtension extends Extension
 				$varnishConfig['path'],
 				$varnishConfig['timeout'],
 				$varnishConfig['header'],
+				$varnishConfig['host_header']
 			]);
 
 			$container->setDefinition($id, $def);

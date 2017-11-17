@@ -66,5 +66,6 @@ class Configuration implements ConfigurationInterface
 		$varnishOptions->children()->scalarNode('path')->defaultValue('/')->end();
 		$varnishOptions->children()->integerNode('timeout')->defaultValue(1)->end();
 		$varnishOptions->children()->scalarNode('header')->defaultValue('X-CACHE-TAG')->end();
+		$varnishOptions->children()->scalarNode('host_header')->defaultNull()->end();
 	}
 }

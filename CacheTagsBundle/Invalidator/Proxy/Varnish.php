@@ -32,21 +32,28 @@ class Varnish implements ProxyInterface
 	 * @var string
 	 */
 	private $invalidationHeaderName;
-
+	
 	/**
-	 * @param string $host
-	 * @param int    $port
-	 * @param string $path
-	 * @param int    $timeout
-	 * @param string $invalidationHeaderName
+	 * @var string|null
 	 */
-	public function __construct($host, $port, $path, $timeout, $invalidationHeaderName)
+	private $hostHeader;
+	
+	/**
+	 * @param string      $host
+	 * @param int         $port
+	 * @param string      $path
+	 * @param int         $timeout
+	 * @param string      $invalidationHeaderName
+	 * @param string|null $hostHeader
+	 */
+	public function __construct($host, $port, $path, $timeout, $invalidationHeaderName, $hostHeader = null)
 	{
 		$this->host                   = $host;
 		$this->port                   = $port;
 		$this->path                   = $path;
 		$this->timeout                = $timeout;
 		$this->invalidationHeaderName = $invalidationHeaderName;
+		$this->hostHeader             = $hostHeader;
 	}
 
 	/**
@@ -62,8 +69,10 @@ class Varnish implements ProxyInterface
 			throw new \RuntimeException(sprintf('Unable to connect to Varnish on %s:%d', $this->host, $this->port), $errNo, $exception);
 		}
 
+		$hostHeader = $this->hostHeader ?: $this->host;
+		
 		$out = sprintf("BAN %s HTTP/1.1\r\n", $this->path);
-		$out .= sprintf("Host: %s\r\n", $this->host);
+		$out .= sprintf("Host: %s\r\n", $hostHeader);
 		$out .= sprintf("%s: %s\r\n", $this->invalidationHeaderName, $tag);
 		$out .= "Connection: Close\r\n\r\n";
 
