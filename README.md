@@ -78,8 +78,10 @@ cache_tags:
         tag: X-CACHE-TAGS
     proxies:
         varnish:
-            - { host: host.tld, port: 80, path: /, timeout: 1, header: X-CACHE-TAG }
+            - { host: host.tld, port: 80, path: /, timeout: 1, header: X-CACHE-TAG, host_header: my.site.com }
 ```
+
+`host_header` Allows to spoof request host header; Optional, defaults to `host` value
 
 ### Usage examples:
 
