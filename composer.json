@@ -2,7 +2,7 @@
     "name": "lbarulski/cache-tags-bundle",
     "description": "Bundle for custom varnish tags",
     "minimum-stability": "stable",
-    "license": "beerware",
+    "license": "MIT",
     "authors": [
         {
             "name": "Łukasz Barulski",
