@@ -79,6 +79,9 @@ cache_tags:
     proxies:
         varnish:
             - { host: host.tld, port: 80, path: /, timeout: 1, header: X-CACHE-TAG, host_header: my.site.com }
+            # For SSL 
+            - { host: ssl://host.tld, port: 443, path: /, timeout: 1, header: X-CACHE-TAG, host_header: my.site.com, ssl_verify_peer: true }
+            
 ```
 
 `host_header` Allows to spoof request host header; Optional, defaults to `host` value

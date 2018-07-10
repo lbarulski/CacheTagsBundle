@@ -3,7 +3,7 @@ parameters:
 
 services:
     cache_tags.command.invalidate_tag:
-        class:      %cache_tags.command.invalidate_tag.class%
+        class:      "%cache_tags.command.invalidate_tag.class%"
         arguments:  ["@cache_tags.invalidator"]
         tags:
             - { name: console.command }

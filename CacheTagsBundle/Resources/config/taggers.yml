@@ -4,8 +4,8 @@ parameters:
 
 services:
     cache_tags.tagger:
-        class:      %cache_tags.tagger.class%
-        arguments:  [%cache_tags.response.tag%]
+        class:      "%cache_tags.tagger.class%"
+        arguments:  ["%cache_tags.response.tag%"]
 
     cache_tags.tagger.repository:
-        class:      %cache_tags.tagger.repository.class%
+        class:      "%cache_tags.tagger.repository.class%"

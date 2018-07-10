@@ -5,20 +5,20 @@ parameters:
 
 services:
     cache_tags.response.listener:
-        class:      %cache_tags.listener.response.class%
+        class:      "%cache_tags.listener.response.class%"
         arguments:  ["@cache_tags.tagger.repository", "@cache_tags.tagger"]
         tags:
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
     cache_tags.cache_tag.listener:
-        class:      %cache_tags.listener.cache_tag.class%
+        class:      "%cache_tags.listener.cache_tag.class%"
         arguments:  ["@cache_tags.tagger.repository"]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: requestAttribute, priority: -255 }
             - { name: kernel.event_listener, event: kernel.controller, method: plain, priority: -255 }
 
     cache_tags.listener.invalidator:
-        class:      %cache_tags.listener.invalidator.class%
+        class:      "%cache_tags.listener.invalidator.class%"
         arguments:  ["@cache_tags.invalidator.repository", "@cache_tags.invalidator.proxy.manager"]
         tags:
             - { name: kernel.event_listener, event: kernel.terminate,  method: invalidate }

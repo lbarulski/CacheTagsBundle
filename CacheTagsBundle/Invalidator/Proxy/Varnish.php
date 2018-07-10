@@ -37,16 +37,22 @@ class Varnish implements ProxyInterface
 	 * @var string|null
 	 */
 	private $hostHeader;
-	
-	/**
-	 * @param string      $host
-	 * @param int         $port
-	 * @param string      $path
-	 * @param int         $timeout
-	 * @param string      $invalidationHeaderName
-	 * @param string|null $hostHeader
-	 */
-	public function __construct($host, $port, $path, $timeout, $invalidationHeaderName, $hostHeader = null)
+
+    /**
+     * @var bool
+     */
+    private $SSLVerifyPeer;
+
+    /**
+     * @param string      $host
+     * @param int         $port
+     * @param string      $path
+     * @param int         $timeout
+     * @param string      $invalidationHeaderName
+     * @param string|null $hostHeader
+     * @param bool        $SSLVerifyPeer
+     */
+	public function __construct($host, $port, $path, $timeout, $invalidationHeaderName, $hostHeader = null, $SSLVerifyPeer = false)
 	{
 		$this->host                   = $host;
 		$this->port                   = $port;
@@ -54,14 +60,21 @@ class Varnish implements ProxyInterface
 		$this->timeout                = $timeout;
 		$this->invalidationHeaderName = $invalidationHeaderName;
 		$this->hostHeader             = $hostHeader;
-	}
+        $this->SSLVerifyPeer          = $SSLVerifyPeer;
+    }
 
 	/**
 	 * @inheritdoc
 	 */
 	public function invalidate($tag)
 	{
-		$fp = fsockopen($this->host, $this->port, $errNo, $errStr, $this->timeout);
+        $context = stream_context_create();
+        if (false === $this->SSLVerifyPeer) {
+            stream_context_set_option($context, 'ssl', 'verify_peer', false);
+            stream_context_set_option($context, 'ssl', 'verify_peer_name', false);
+        }
+        $url = sprintf("%s:%s", $this->host, $this->port);
+		$fp = stream_socket_client($url, $errNo, $errStr, $this->timeout, STREAM_CLIENT_CONNECT, $context);
 
 		if (false === is_resource($fp))
 		{

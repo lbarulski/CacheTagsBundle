@@ -1,22 +1,22 @@
 parameters:
     cache_tags.invalidator.class:               lbarulski\CacheTagsBundle\Invalidator\Invalidator
-    cache_tags.invalidaotr.repository.class:    lbarulski\CacheTagsBundle\Service\Repository
+    cache_tags.invalidator.repository.class:    lbarulski\CacheTagsBundle\Service\Repository
     cache_tags.invalidator.proxy.manager.class: lbarulski\CacheTagsBundle\Invalidator\Proxy\Manager
     cache_tags.invalidator.proxy.varnish.class: lbarulski\CacheTagsBundle\Invalidator\Proxy\Varnish
 
 services:
     cache_tags.invalidator:
-        class:      %cache_tags.invalidator.class%
+        class:      "%cache_tags.invalidator.class%"
         arguments:  ["@cache_tags.invalidator.repository"]
 
     cache_tags.invalidator.proxy.manager:
-        class:      %cache_tags.invalidator.proxy.manager.class%
+        class:      "%cache_tags.invalidator.proxy.manager.class%"
 
     cache_tags.invalidator.repository:
-        class:      %cache_tags.invalidaotr.repository.class%
+        class:      "%cache_tags.invalidator.repository.class%"
 
     cache_tags.invalidator.proxy.varnish:
-        class:      %cache_tags.invalidator.proxy.varnish.class%
+        class:      "%cache_tags.invalidator.proxy.varnish.class%"
         abstract:   true
         public:     false
         tags:
