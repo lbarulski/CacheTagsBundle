@@ -14,19 +14,31 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfigTreeBuilder()
-    {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('cache_tags');
+	/** @var string */
+	protected $alias;
+
+	public function __construct($alias = 'gate_keeper')
+	{
+		$this->alias = $alias;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getConfigTreeBuilder()
+	{
+		$treeBuilder = new TreeBuilder($this->alias);
+
+		$rootNode = method_exists($treeBuilder, 'getRootNode') ?
+			$treeBuilder->getRootNode()
+			:
+			$treeBuilder->root($this->alias); // BC layer for symfony/config 4.1 and older
 
 		$this->addResponseNode($rootNode);
 		$this->addProxiesNode($rootNode);
 
-        return $treeBuilder;
-    }
+		return $treeBuilder;
+	}
 
 	/**
 	 * @param ArrayNodeDefinition|NodeDefinition $rootNode
@@ -67,6 +79,6 @@ class Configuration implements ConfigurationInterface
 		$varnishOptions->children()->integerNode('timeout')->defaultValue(1)->end();
 		$varnishOptions->children()->scalarNode('header')->defaultValue('X-CACHE-TAG')->end();
 		$varnishOptions->children()->scalarNode('host_header')->defaultNull()->end();
-        $varnishOptions->children()->booleanNode('ssl_verify_peer')->defaultFalse()->end();
+		$varnishOptions->children()->booleanNode('ssl_verify_peer')->defaultFalse()->end();
 	}
 }
