@@ -17,7 +17,7 @@ class Configuration implements ConfigurationInterface
 	/** @var string */
 	protected $alias;
 
-	public function __construct($alias = 'gate_keeper')
+	public function __construct($alias = 'cache_tags')
 	{
 		$this->alias = $alias;
 	}
