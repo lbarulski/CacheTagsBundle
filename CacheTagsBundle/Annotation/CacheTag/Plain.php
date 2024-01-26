@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
  */
 class Plain implements ConfigurationInterface
 {
-	const ALIAS = 'cache_tag_plain';
+	public const ALIAS = 'cache_tag_plain';
 
 	/**
 	 * @Required()

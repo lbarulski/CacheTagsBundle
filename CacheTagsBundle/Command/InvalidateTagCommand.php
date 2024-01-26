@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class InvalidateTagCommand extends Command
 {
-	const ARGUMENT_TAG = 'tag';
+	public const ARGUMENT_TAG = 'tag';
 
 	/** @var InvalidatorInterface */
 	private $invalidator;

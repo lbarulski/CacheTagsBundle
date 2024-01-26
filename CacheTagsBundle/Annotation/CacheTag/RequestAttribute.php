@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface;
  */
 class RequestAttribute implements ConfigurationInterface
 {
-	const ALIAS = 'cache_tag_request_attribute';
+	public const ALIAS = 'cache_tag_request_attribute';
 
 	/**
 	 * @Required()

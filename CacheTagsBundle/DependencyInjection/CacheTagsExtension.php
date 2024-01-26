@@ -16,8 +16,8 @@ use Symfony\Component\DependencyInjection\Loader;
  */
 class CacheTagsExtension extends Extension
 {
-	const PROXY_INVALIDATOR_MANAGER = 'cache_tags.invalidator.proxy.manager';
-	const PROXY_INVALIDATOR_VARNISH = 'cache_tags.invalidator.proxy.varnish';
+	public const PROXY_INVALIDATOR_MANAGER = 'cache_tags.invalidator.proxy.manager';
+	public const PROXY_INVALIDATOR_VARNISH = 'cache_tags.invalidator.proxy.varnish';
 
 	/**
 	 * {@inheritdoc}
