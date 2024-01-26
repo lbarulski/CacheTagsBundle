@@ -127,6 +127,7 @@ class Article implements CacheTagInterface
 // Acme\MainBundle\Controller\ArticleController.php
 
 use lbarulski\CacheTagsBundle\Annotation\CacheTag\RequestAttribute;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 ...
 
 /**
