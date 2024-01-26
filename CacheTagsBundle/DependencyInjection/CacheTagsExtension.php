@@ -2,6 +2,7 @@
 
 namespace lbarulski\CacheTagsBundle\DependencyInjection;
 
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
@@ -39,7 +40,12 @@ class CacheTagsExtension extends Extension
 		foreach ($config['proxies']['varnish'] as $index => $varnishConfig)
 		{
 			$id  = sprintf('cache_tags.invalidator.proxy.varnish.%d', $index);
-			$def = new DefinitionDecorator(self::PROXY_INVALIDATOR_VARNISH);
+
+            $def = class_exists(ChildDefinition::class) ?
+                new ChildDefinition(self::PROXY_INVALIDATOR_VARNISH)
+                :
+                new DefinitionDecorator(self::PROXY_INVALIDATOR_VARNISH);
+
 			$def->setArguments([
 				$varnishConfig['host'],
 				$varnishConfig['port'],
