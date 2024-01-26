@@ -4,7 +4,7 @@ CacheTagsBundle is simple Cache Tag and Cache Invalidation for Varnish Cache
 
 [![Total Downloads](https://poser.pugx.org/lbarulski/cache-tags-bundle/downloads.png)](https://packagist.org/packages/lbarulski/cache-tags-bundle)
 
-# varnish 3
+# Varnish VCL
 ```
 sub vcl_recv {
     if (req.request == "BAN") {
@@ -19,15 +19,9 @@ sub vcl_recv {
 }
 ```
 
-## Requirements
+## Installation
 
-* PHP 5.3+
-* Symfony2
-
-Installation
-------------
-
-The CacheTagsBundle library is available on [Packagist] (https://packagist.org/packages/lbarulski/cache-tags-bundle). You can install it using [Composer] (http://getcomposer.org):
+The CacheTagsBundle library is available on [Packagist](https://packagist.org/packages/lbarulski/cache-tags-bundle). You can install it using [Composer] (http://getcomposer.org):
 
 #### Method 1
 
@@ -41,10 +35,10 @@ $ composer require lbarulski/cache-tags-bundle
 
 1. Add the following lines in your composer.json:
 
-```js
+```json
 {
   "require": {
-    "lbarulski/cache-tags-bundle": "dev-master"
+    "lbarulski/cache-tags-bundle": "2.0.x-dev"
   }
 }
 ```
@@ -52,7 +46,7 @@ $ composer require lbarulski/cache-tags-bundle
 2. Run the composer to download the bundle
 
 ```bash
-$ composer update lbarulski/cache-tags-bundle
+$ composer require 'lbarulski/cache-tags-bundle:2.0.x-dev'
 ```
 
 ### Add this bundle to your application's kernel
@@ -72,7 +66,7 @@ public function registerBundles()
 ### Configuration config.yml example
 
 ```yaml
-// app/config/config.yml
+# app/config/config.yml
 cache_tags:
     response:
         tag: X-CACHE-TAGS
