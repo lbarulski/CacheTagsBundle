@@ -78,7 +78,14 @@ class Configuration implements ConfigurationInterface
 		$varnishOptions->children()->scalarNode('path')->defaultValue('/')->end();
 		$varnishOptions->children()->integerNode('timeout')->defaultValue(1)->end();
 		$varnishOptions->children()->scalarNode('header')->defaultValue('X-CACHE-TAG')->end();
-		$varnishOptions->children()->scalarNode('host_header')->defaultNull()->end();
+		$varnishOptions->children()->scalarNode('host_header')->setDeprecated('The child node "%node%" at path "%path%" is deprecated. Add "Host" header via "headers" instead')->defaultNull()->end();
 		$varnishOptions->children()->booleanNode('ssl_verify_peer')->defaultFalse()->end();
+		$varnishOptions->children()->arrayNode('headers')
+			->prototype('array')
+				->children()
+					->scalarNode('name')->isRequired()->end()
+					->scalarNode('value')->isRequired()->end()
+				->end()
+			->end();
 	}
 }

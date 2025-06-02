@@ -32,7 +32,7 @@ class Varnish implements ProxyInterface
 	 * @var string
 	 */
 	private $invalidationHeaderName;
-	
+
 	/**
 	 * @var string|null
 	 */
@@ -44,6 +44,11 @@ class Varnish implements ProxyInterface
     private $SSLVerifyPeer;
 
     /**
+     * @var array
+     */
+    private $headers = [];
+
+    /**
      * @param string      $host
      * @param int         $port
      * @param string      $path
@@ -51,8 +56,9 @@ class Varnish implements ProxyInterface
      * @param string      $invalidationHeaderName
      * @param string|null $hostHeader
      * @param bool        $SSLVerifyPeer
+     * @param array       $headers
      */
-	public function __construct($host, $port, $path, $timeout, $invalidationHeaderName, $hostHeader = null, $SSLVerifyPeer = false)
+	public function __construct($host, $port, $path, $timeout, $invalidationHeaderName, $hostHeader = null, $SSLVerifyPeer = false, array $headers = [])
 	{
 		$this->host                   = $host;
 		$this->port                   = $port;
@@ -61,6 +67,7 @@ class Varnish implements ProxyInterface
 		$this->invalidationHeaderName = $invalidationHeaderName;
 		$this->hostHeader             = $hostHeader;
         $this->SSLVerifyPeer          = $SSLVerifyPeer;
+        $this->headers                = $headers;
     }
 
 	/**
@@ -83,10 +90,17 @@ class Varnish implements ProxyInterface
 		}
 
 		$hostHeader = $this->hostHeader ?: $this->host;
-		
+
 		$out = sprintf("BAN %s HTTP/1.1\r\n", $this->path);
 		$out .= sprintf("Host: %s\r\n", $hostHeader);
 		$out .= sprintf("%s: %s\r\n", $this->invalidationHeaderName, $tag);
+
+		foreach ($this->headers as $header) {
+			if (isset($header['name']) && isset($header['value'])) {
+				$out .= sprintf("%s: %s\r\n", $header['name'], $header['value']);
+			}
+		}
+
 		$out .= "Connection: Close\r\n\r\n";
 
 		fwrite($fp, $out);
