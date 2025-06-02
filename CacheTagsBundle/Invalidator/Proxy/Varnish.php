@@ -32,27 +32,33 @@ class Varnish implements ProxyInterface
 	 * @var string
 	 */
 	private $invalidationHeaderName;
-	
+
 	/**
 	 * @var string|null
 	 */
 	private $hostHeader;
 
-    /**
-     * @var bool
-     */
-    private $SSLVerifyPeer;
+	/**
+	 * @var bool
+	 */
+	private $SSLVerifyPeer;
 
-    /**
-     * @param string      $host
-     * @param int         $port
-     * @param string      $path
-     * @param int         $timeout
-     * @param string      $invalidationHeaderName
-     * @param string|null $hostHeader
-     * @param bool        $SSLVerifyPeer
-     */
-	public function __construct($host, $port, $path, $timeout, $invalidationHeaderName, $hostHeader = null, $SSLVerifyPeer = false)
+	/**
+	 * @var array
+	 */
+	private $headers = [];
+
+	/**
+	 * @param string      $host
+	 * @param int         $port
+	 * @param string      $path
+	 * @param int         $timeout
+	 * @param string      $invalidationHeaderName
+	 * @param string|null $hostHeader
+	 * @param bool        $SSLVerifyPeer
+	 * @param array       $headers
+	 */
+	public function __construct($host, $port, $path, $timeout, $invalidationHeaderName, $hostHeader = null, $SSLVerifyPeer = false, array $headers = [])
 	{
 		$this->host                   = $host;
 		$this->port                   = $port;
@@ -60,20 +66,21 @@ class Varnish implements ProxyInterface
 		$this->timeout                = $timeout;
 		$this->invalidationHeaderName = $invalidationHeaderName;
 		$this->hostHeader             = $hostHeader;
-        $this->SSLVerifyPeer          = $SSLVerifyPeer;
-    }
+		$this->SSLVerifyPeer          = $SSLVerifyPeer;
+		$this->headers                = $headers;
+	}
 
 	/**
 	 * @inheritdoc
 	 */
 	public function invalidate($tag)
 	{
-        $context = stream_context_create();
-        if (false === $this->SSLVerifyPeer) {
-            stream_context_set_option($context, 'ssl', 'verify_peer', false);
-            stream_context_set_option($context, 'ssl', 'verify_peer_name', false);
-        }
-        $url = sprintf("%s:%s", $this->host, $this->port);
+		$context = stream_context_create();
+		if (false === $this->SSLVerifyPeer) {
+			stream_context_set_option($context, 'ssl', 'verify_peer', false);
+			stream_context_set_option($context, 'ssl', 'verify_peer_name', false);
+		}
+		$url = sprintf("%s:%s", $this->host, $this->port);
 		$fp = stream_socket_client($url, $errNo, $errStr, $this->timeout, STREAM_CLIENT_CONNECT, $context);
 
 		if (false === is_resource($fp))
@@ -83,10 +90,17 @@ class Varnish implements ProxyInterface
 		}
 
 		$hostHeader = $this->hostHeader ?: $this->host;
-		
+
 		$out = sprintf("BAN %s HTTP/1.1\r\n", $this->path);
 		$out .= sprintf("Host: %s\r\n", $hostHeader);
 		$out .= sprintf("%s: %s\r\n", $this->invalidationHeaderName, $tag);
+
+		foreach ($this->headers as $header) {
+			if (isset($header['name']) && isset($header['value'])) {
+				$out .= sprintf("%s: %s\r\n", $header['name'], $header['value']);
+			}
+		}
+
 		$out .= "Connection: Close\r\n\r\n";
 
 		fwrite($fp, $out);

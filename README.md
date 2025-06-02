@@ -72,9 +72,26 @@ cache_tags:
         tag: X-CACHE-TAGS
     proxies:
         varnish:
-            - { host: host.tld, port: 80, path: /, timeout: 1, header: X-CACHE-TAG, host_header: my.site.com }
+            - host: host.tld
+              port: 80
+              path: /
+              timeout: 1
+              header: X-CACHE-TAG
+              host_header: my.site.com # deprecated, add `Host` header instead
+              headers:
+                - name: Host
+                  value: my.site.com
             # For SSL 
-            - { host: ssl://host.tld, port: 443, path: /, timeout: 1, header: X-CACHE-TAG, host_header: my.site.com, ssl_verify_peer: true }
+            - host: ssl://host.tld
+              port: 443
+              path: /
+              timeout: 1
+              header: X-CACHE-TAG
+              host_header: my.site.com # deprecated, add `Host` header instead
+              headers:
+                - name: Host
+                  value: my.site.com
+              ssl_verify_peer: true
             
 ```
 
