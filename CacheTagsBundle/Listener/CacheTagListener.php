@@ -6,6 +6,7 @@ use lbarulski\CacheTagsBundle\Annotation\CacheTag\Plain;
 use lbarulski\CacheTagsBundle\Annotation\CacheTag\RequestAttribute;
 use lbarulski\CacheTagsBundle\Service\Repository;
 use lbarulski\CacheTagsBundle\Tag\Plain as PlainTag;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 class CacheTagListener
@@ -24,9 +25,9 @@ class CacheTagListener
 	}
 
 	/**
-	 * @param FilterControllerEvent $event
+	 * @param FilterControllerEvent|ControllerEvent $event
 	 */
-	public function requestAttribute(FilterControllerEvent $event)
+	public function requestAttribute($event)
 	{
 		$request = $event->getRequest();
 		$aliasName = $this->getAliasName(RequestAttribute::ALIAS);
@@ -50,9 +51,9 @@ class CacheTagListener
 	}
 
 	/**
-	 * @param FilterControllerEvent $event
+	 * @param FilterControllerEvent|ControllerEvent $event
 	 */
-	public function plain(FilterControllerEvent $event)
+	public function plain($event)
 	{
 		$request = $event->getRequest();
 		$aliasName = $this->getAliasName(Plain::ALIAS);
