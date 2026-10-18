@@ -9,7 +9,7 @@ namespace lbarulski\CacheTagsBundle\Listener;
 use lbarulski\CacheTagsBundle\Service\Repository;
 use lbarulski\CacheTagsBundle\Service\Tagger;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class ResponseListener
 {
@@ -30,11 +30,12 @@ class ResponseListener
 	}
 
 	/**
-	 * @param FilterResponseEvent $event
+	 * @param FilterResponseEvent|ResponseEvent $event
 	 */
-	public function onKernelResponse(FilterResponseEvent $event)
+	public function onKernelResponse($event)
 	{
-		if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType())
+		// isMasterRequest() is removed in Symfony 6.0, isMainRequest() exists since 5.3
+		if (!(method_exists($event, 'isMainRequest') ? $event->isMainRequest() : $event->isMasterRequest()))
 		{
 			return;
 		}

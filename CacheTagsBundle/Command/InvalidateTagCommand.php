@@ -39,7 +39,7 @@ class InvalidateTagCommand extends Command
 		$this->setDescription('Invalidates tag(s)');
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output)
+	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
 		$verbosity = $output->getVerbosity();
 		foreach ($input->getArgument(self::ARGUMENT_TAG) as $tag)
@@ -51,5 +51,7 @@ class InvalidateTagCommand extends Command
 
 			$this->invalidator->invalidate(new Plain($tag));
 		}
+
+		return 0;
 	}
 }

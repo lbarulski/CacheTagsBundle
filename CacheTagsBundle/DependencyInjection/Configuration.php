@@ -2,6 +2,7 @@
 
 namespace lbarulski\CacheTagsBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\BaseNode;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -78,7 +79,18 @@ class Configuration implements ConfigurationInterface
 		$varnishOptions->children()->scalarNode('path')->defaultValue('/')->end();
 		$varnishOptions->children()->integerNode('timeout')->defaultValue(1)->end();
 		$varnishOptions->children()->scalarNode('header')->defaultValue('X-CACHE-TAG')->end();
-		$varnishOptions->children()->scalarNode('host_header')->setDeprecated('The child node "%node%" at path "%path%" is deprecated. Add "Host" header via "headers" instead')->defaultNull()->end();
+		$hostHeaderNode = $varnishOptions->children()->scalarNode('host_header');
+		$hostHeaderDeprecation = 'The child node "%node%" at path "%path%" is deprecated. Add "Host" header via "headers" instead';
+		// Symfony 5.1 added the package and version arguments; 6.0 requires them
+		if (method_exists(BaseNode::class, 'getDeprecation'))
+		{
+			$hostHeaderNode->setDeprecated('lbarulski/cache-tags-bundle', '2.0', $hostHeaderDeprecation);
+		}
+		else
+		{
+			$hostHeaderNode->setDeprecated($hostHeaderDeprecation);
+		}
+		$hostHeaderNode->defaultNull()->end();
 		$varnishOptions->children()->booleanNode('ssl_verify_peer')->defaultFalse()->end();
 		$varnishOptions->children()->arrayNode('headers')
 			->prototype('array')
